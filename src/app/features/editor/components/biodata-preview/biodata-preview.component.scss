@@ -1,0 +1,330 @@
+// ─── A4 page shell ────────────────────────────────────────────────────────────
+.biodata-page {
+  width: 794px;
+  min-height: 1123px;
+  background: var(--bio-bg, #fff);
+  color: var(--bio-text, #222);
+  font-family: var(--bio-font-body, 'EB Garamond', serif);
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+// ─── HEADER ───────────────────────────────────────────────────────────────────
+.bio-header {
+  position: relative;
+  background: var(--bio-header-bg);
+  color: var(--bio-header-text);
+  padding: 28px 40px 20px;
+}
+
+.bio-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.bio-photo-wrap {
+  flex-shrink: 0;
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+  border: 3px solid var(--bio-border);
+
+  &.shape-circular { border-radius: 50%; }
+  &.shape-rectangular { border-radius: 8px; }
+
+  .bio-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.bio-header-text {
+  flex: 1;
+  text-align: center;
+}
+
+.bio-header-symbol {
+  font-family: var(--bio-font-heading), 'Noto Sans Devanagari', serif;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  opacity: 0.85;
+  margin: 0 0 6px;
+}
+
+.bio-name {
+  font-family: var(--bio-font-heading), serif;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+}
+
+// ─── Ornament (Royal) ─────────────────────────────────────────────────────────
+.bio-header-ornament {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 40px;
+
+  &.bottom-ornament { padding-top: 12px; }
+
+  .ornament-line {
+    flex: 1;
+    height: 1px;
+    background: var(--bio-border);
+    opacity: 0.7;
+  }
+  .ornament-symbol {
+    color: var(--bio-border);
+    font-size: 14px;
+  }
+}
+
+// ─── Floral corners ───────────────────────────────────────────────────────────
+.floral-corner {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  opacity: 0.6;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='8' cy='8' r='4' fill='%23BE185D' opacity='.5'/%3E%3Ccircle cx='20' cy='10' r='3' fill='%23F472B6' opacity='.4'/%3E%3Ccircle cx='10' cy='22' r='3' fill='%23F472B6' opacity='.4'/%3E%3Ccircle cx='32' cy='8' r='2' fill='%23BE185D' opacity='.3'/%3E%3Ccircle cx='8' cy='32' r='2' fill='%23BE185D' opacity='.3'/%3E%3Cpath d='M4 4 Q20 2 22 22' stroke='%23BE185D' stroke-width='1' fill='none' opacity='.3'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &.floral-tl { top: 4px; left: 4px; }
+  &.floral-tr { top: 4px; right: 4px; transform: scaleX(-1); }
+}
+
+// ─── BODY ─────────────────────────────────────────────────────────────────────
+.bio-body {
+  padding: 8px 40px 24px;
+}
+
+.vibrant-accent-bar {
+  height: 4px;
+  background: linear-gradient(90deg, var(--bio-accent), var(--bio-primary));
+  margin: 0 -40px 16px;
+}
+
+.bio-section {
+  margin-bottom: 16px;
+}
+
+.bio-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.bio-section-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.bio-section-title {
+  font-family: var(--bio-font-heading), serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bio-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.classic-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--bio-border);
+  margin-left: 8px;
+  opacity: 0.6;
+}
+
+// ─── Fields ───────────────────────────────────────────────────────────────────
+.fields-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fields-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 16px;
+}
+
+.bio-field {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 1.6;
+
+  &--full {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+  }
+}
+
+.bio-field-label {
+  font-weight: 600;
+  color: var(--bio-primary);
+  white-space: nowrap;
+  min-width: 140px;
+  font-size: 11.5px;
+}
+
+.bio-field-sep {
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.bio-field-value {
+  color: var(--bio-text);
+  flex: 1;
+  font-size: 12px;
+}
+
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
+.bio-footer {
+  padding: 10px 40px 16px;
+  text-align: center;
+}
+
+.bio-footer-ornament {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .ornament-line {
+    flex: 1;
+    height: 1px;
+    background: var(--bio-border);
+    opacity: 0.6;
+  }
+  .ornament-symbol {
+    color: var(--bio-primary);
+    font-size: 12px;
+    font-family: 'Noto Sans Devanagari', serif;
+    opacity: 0.7;
+    white-space: nowrap;
+  }
+}
+
+.bio-footer-text {
+  font-size: 10px;
+  color: var(--bio-text);
+  opacity: 0.35;
+  margin: 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+// ─── Template: Royal ──────────────────────────────────────────────────────────
+.template-royal {
+  border: 2px solid var(--bio-border);
+  box-shadow: inset 0 0 0 6px var(--bio-bg), inset 0 0 0 8px var(--bio-border);
+
+  .bio-header { border-bottom: 2px solid var(--bio-border); }
+  .bio-section-title { font-size: 13px; border-bottom: 1px solid var(--bio-border); padding-bottom: 3px; }
+  .bio-field-label { min-width: 160px; font-style: italic; }
+  .bio-name { letter-spacing: 2px; }
+}
+
+// ─── Template: Modern Minimal ─────────────────────────────────────────────────
+.template-modern {
+  .bio-header {
+    border-left: 6px solid var(--bio-primary);
+    border-bottom: 1px solid var(--bio-border);
+  }
+  .bio-header-symbol { color: var(--bio-primary); font-weight: 600; }
+  .bio-name { color: var(--bio-primary); }
+  .bio-section-title {
+    background: var(--bio-accent);
+    color: var(--bio-primary);
+    display: inline-flex;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 10.5px;
+  }
+  .bio-section-header { margin-bottom: 6px; }
+  .bio-field-label { color: var(--bio-primary); min-width: 130px; }
+}
+
+// ─── Template: Floral Elegant ─────────────────────────────────────────────────
+.template-floral {
+  .bio-header {
+    text-align: center;
+    border-bottom: 2px solid var(--bio-border);
+  }
+  .bio-header-inner { flex-direction: column; align-items: center; }
+  .bio-name { font-size: 28px; font-style: italic; font-weight: 400; letter-spacing: 1px; }
+  .bio-header-symbol { font-size: 14px; letter-spacing: 2px; }
+  .bio-section-title { font-style: italic; font-weight: 600; font-size: 15px; text-transform: none; letter-spacing: 0; }
+  .bio-section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--bio-border), transparent);
+    margin-left: 8px;
+    display: block;
+  }
+  .bio-field-label { color: var(--bio-primary); font-style: italic; min-width: 150px; }
+}
+
+// ─── Template: Classic Serif ──────────────────────────────────────────────────
+.template-classic {
+  .bio-header {
+    text-align: center;
+    padding-top: 36px;
+    border-bottom: none;
+  }
+  .bio-header::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--bio-border), transparent);
+    margin-bottom: 16px;
+  }
+  .bio-header::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--bio-border), transparent);
+    margin-top: 16px;
+  }
+  .bio-header-inner { flex-direction: column; align-items: center; }
+  .bio-name { font-size: 24px; letter-spacing: 3px; font-weight: 400; }
+  .bio-header-symbol { font-size: 13px; letter-spacing: 3px; font-style: italic; }
+  .bio-section-title { font-size: 12px; letter-spacing: 2px; font-weight: 400; color: var(--bio-accent); }
+  .bio-field-label { color: var(--bio-secondary); min-width: 155px; }
+}
+
+// ─── Template: Vibrant ────────────────────────────────────────────────────────
+.template-vibrant {
+  .bio-header {
+    background: linear-gradient(135deg, var(--bio-primary) 0%, var(--bio-secondary) 100%);
+    color: var(--bio-header-text);
+    padding-bottom: 24px;
+    clip-path: ellipse(110% 100% at 50% 0%);
+    padding-bottom: 32px;
+  }
+  .bio-name { font-size: 28px; letter-spacing: 0; font-weight: 700; }
+  .bio-header-symbol { opacity: 0.8; font-weight: 500; }
+  .bio-section-title {
+    color: var(--bio-primary);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: none;
+  }
+  .bio-section-header {
+    border-left: 3px solid var(--bio-primary);
+    padding-left: 8px;
+  }
+  .bio-field-label { color: var(--bio-secondary); min-width: 130px; font-weight: 700; }
+}

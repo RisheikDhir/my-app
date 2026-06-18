@@ -1,0 +1,159 @@
+.switcher {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// ─── Template grid ────────────────────────────────────────────────────────────
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.template-card {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 6px;
+  background: var(--editor-surface);
+  transition: all 0.18s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  &:hover { border-color: var(--editor-primary); transform: translateY(-1px); }
+  &.active { border-color: var(--editor-primary); box-shadow: 0 0 0 2px color-mix(in srgb, var(--editor-primary) 20%, transparent); }
+}
+
+// Mini preview inside template card
+.tc-preview {
+  width: 100%;
+  aspect-ratio: 0.7;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--tc-bg, #fff);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 4px rgba(0,0,0,.12);
+}
+
+.tc-header {
+  height: 28%;
+  background: var(--tc-header, var(--tc-primary, #8B0000));
+}
+
+.tc-lines {
+  flex: 1;
+  padding: 4px 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  justify-content: center;
+}
+
+.tc-line {
+  height: 3px;
+  background: var(--tc-primary, #8B0000);
+  border-radius: 2px;
+  opacity: 0.3;
+
+  &.long  { width: 90%; }
+  &.med   { width: 70%; }
+  &.short { width: 55%; }
+}
+
+.tc-name {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--editor-text-muted);
+  text-align: center;
+  line-height: 1.2;
+}
+
+// ─── Pickers ──────────────────────────────────────────────────────────────────
+.picker-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.picker-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--editor-text-muted);
+  margin: 0;
+}
+
+// Font pair buttons
+.font-options {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.font-btn {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1.5px solid var(--editor-border);
+  font-size: 12px;
+  cursor: pointer;
+  background: var(--editor-surface);
+  color: var(--editor-text);
+  transition: all 0.15s;
+
+  &:hover { border-color: var(--editor-primary); }
+  &.active { background: var(--editor-primary); color: #fff; border-color: var(--editor-primary); }
+}
+
+// Color swatches
+.color-swatches {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.swatch-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.color-input {
+  // hidden — label acts as the visible trigger
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.swatch-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--editor-border);
+  display: block;
+  transition: transform 0.15s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+
+  .swatch-label:hover & { transform: scale(1.15); }
+}
+
+.swatch-name {
+  font-size: 9px;
+  color: var(--editor-text-muted);
+  text-align: center;
+}

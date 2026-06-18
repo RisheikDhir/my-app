@@ -1,0 +1,103 @@
+<div class="biodata-page"
+     [ngClass]="'template-' + template().style"
+     [ngStyle]="cssVars()"
+     #biodataPage>
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="bio-header">
+
+    @if (template().style === 'royal') {
+      <div class="bio-header-ornament top-ornament">
+        <span class="ornament-line"></span>
+        <span class="ornament-symbol">✦</span>
+        <span class="ornament-line"></span>
+      </div>
+    }
+    @if (template().style === 'floral') {
+      <div class="floral-corner floral-tl"></div>
+      <div class="floral-corner floral-tr"></div>
+    }
+
+    <div class="bio-header-inner">
+      @if (biodata().photo) {
+        <div class="bio-photo-wrap" [ngClass]="'shape-' + biodata().photoShape">
+          <img [src]="biodata().photo" alt="Profile photo" class="bio-photo" loading="lazy" />
+        </div>
+      }
+      <div class="bio-header-text">
+        @if (biodata().headerSymbol) {
+          <p class="bio-header-symbol">{{ biodata().headerSymbol }}</p>
+        }
+        @for (section of visibleSections(); track section.id) {
+          @if (section.id === 'personal') {
+            @for (field of section.fields; track field.id) {
+              @if (field.id === 'full-name' && field.visible && field.value) {
+                <h1 class="bio-name">{{ field.value }}</h1>
+              }
+            }
+          }
+        }
+      </div>
+    </div>
+
+    @if (template().style === 'royal') {
+      <div class="bio-header-ornament bottom-ornament">
+        <span class="ornament-line"></span>
+        <span class="ornament-symbol">✦</span>
+        <span class="ornament-line"></span>
+      </div>
+    }
+  </div>
+
+  <!-- ═══ BODY ═══ -->
+  <div class="bio-body">
+
+    @if (template().style === 'vibrant') {
+      <div class="vibrant-accent-bar"></div>
+    }
+
+    @for (section of visibleSections(); track section.id) {
+      @let visibleFields = section.fields.filter(f => f.visible && f.value);
+
+      @if (visibleFields.length > 0 || section.isCustom) {
+        <div class="bio-section">
+          <div class="bio-section-header">
+            @if (template().style !== 'classic' && template().style !== 'modern') {
+              <span class="bio-section-icon">{{ section.icon }}</span>
+            }
+            <h2 class="bio-section-title">{{ section.title }}</h2>
+            @if (template().style === 'classic') {
+              <div class="classic-rule"></div>
+            }
+          </div>
+
+          <div class="bio-fields" [ngClass]="template().style === 'modern' ? 'fields-grid' : 'fields-list'">
+            @for (field of visibleFields; track field.id) {
+              @if (field.id !== 'full-name') {
+                <div class="bio-field" [ngClass]="field.type === 'textarea' ? 'bio-field--full' : ''">
+                  <span class="bio-field-label">{{ field.label }}</span>
+                  <span class="bio-field-sep">:</span>
+                  <span class="bio-field-value">{{ field.value }}</span>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="bio-footer">
+    @if (template().style === 'royal') {
+      <div class="bio-footer-ornament">
+        <span class="ornament-line"></span>
+        <span class="ornament-symbol">॥ शुभ विवाह ॥</span>
+        <span class="ornament-line"></span>
+      </div>
+    } @else {
+      <p class="bio-footer-text">Marriage Biodata</p>
+    }
+  </div>
+
+</div>

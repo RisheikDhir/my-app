@@ -1,0 +1,59 @@
+<div class="templates-page">
+
+  <header class="page-header">
+    <nav class="page-nav">
+      <a href="/" class="nav-logo"><span class="logo-sym">✦</span> BiodataForge</a>
+      <a routerLink="/create" class="nav-cta">Create Biodata →</a>
+    </nav>
+    <h1 class="page-title">Marriage Biodata Templates</h1>
+    <p class="page-subtitle">5 professionally designed templates. All free. All fully customizable.</p>
+  </header>
+
+  <main class="templates-grid container">
+    @for (t of templates; track t.id) {
+      <article class="template-card" [ngStyle]="getPreviewVars(t)">
+
+        <!-- Mini preview -->
+        <div class="tc-preview" [class]="'template-' + t.style">
+          <div class="tc-header">
+            <div class="tc-header-text">
+              <div class="tc-symbol">॥ श्री गणेशाय नमः ॥</div>
+              <div class="tc-name">Priya Sharma</div>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-sec-title">Personal Details</div>
+            <div class="tc-row"><span class="tcl">Date of Birth</span><span class="tcv">15 March 1998</span></div>
+            <div class="tc-row"><span class="tcl">Height</span><span class="tcv">5'4"</span></div>
+            <div class="tc-row"><span class="tcl">Occupation</span><span class="tcv">Software Engineer</span></div>
+            <div class="tc-sec-title" style="margin-top:6px">Family Details</div>
+            <div class="tc-row"><span class="tcl">Father's Name</span><span class="tcv">Ramesh Sharma</span></div>
+            <div class="tc-row"><span class="tcl">Religion</span><span class="tcv">Hindu</span></div>
+          </div>
+        </div>
+
+        <!-- Card info -->
+        <div class="tc-info">
+          <div class="tc-meta">
+            <h2 class="tc-name-label">{{ t.name }}</h2>
+            <p class="tc-desc">{{ t.description }}</p>
+            <div class="tc-colors">
+              @for (color of getPreviewColors(t); track color) {
+                <span class="tc-dot" [ngStyle]="{ background: color }"></span>
+              }
+            </div>
+          </div>
+          <a
+            routerLink="/create"
+            class="tc-btn"
+            (click)="selectAndCreate(t.id)"
+            [attr.aria-label]="'Use ' + t.name + ' template'">
+            Use Template →
+          </a>
+        </div>
+
+      </article>
+    }
+  </main>
+
+</div>

@@ -1,0 +1,99 @@
+<div class="editor-root" [ngClass]="{ dark: svc.isDarkMode() }">
+
+  <!-- ══ ONBOARDING OVERLAY ══════════════════════════════════════════════════ -->
+  @if (!svc.hasOnboarded()) {
+    <div class="onboarding-overlay">
+      <div class="onboarding-card">
+        <div class="onboarding-symbol">॥</div>
+        <h1 class="onboarding-title">Create your<br><strong>Marriage Biodata</strong></h1>
+        <p class="onboarding-subtitle">Beautiful, print-ready biodatas in minutes.<br>Let's start with your name.</p>
+
+        <form class="onboarding-form" (submit)="completeOnboarding()">
+          <input
+            type="text"
+            class="onboarding-input"
+            [(ngModel)]="onboardingName"
+            name="name"
+            placeholder="Enter your full name"
+            autofocus
+            required />
+          <button type="submit" class="onboarding-btn" [disabled]="!onboardingName().trim()">
+            Start Creating →
+          </button>
+        </form>
+
+        <p class="onboarding-note">Demo data is pre-filled — just edit what you want</p>
+      </div>
+    </div>
+  }
+
+  <!-- ══ EDITOR LAYOUT ═══════════════════════════════════════════════════════ -->
+  <div class="editor-layout">
+
+    <!-- ── Top Bar ──────────────────────────────────────────────────── -->
+    <header class="editor-topbar">
+      <a href="/" class="editor-logo" aria-label="BiodataForge home">
+        <span class="logo-symbol">✦</span>
+        <span class="logo-text">BiodataForge</span>
+      </a>
+
+      <!-- Save indicator -->
+      <div class="save-indicator" [ngClass]="svc.saveIndicator()">
+        @if (svc.saveIndicator() === 'saved') {
+          <span class="save-dot"></span> Saved
+        } @else if (svc.saveIndicator() === 'saving') {
+          <span class="save-dot saving"></span> Saving…
+        }
+      </div>
+
+      <div class="topbar-actions">
+        <button
+          class="topbar-btn"
+          (click)="toggleDarkMode()"
+          [title]="svc.isDarkMode() ? 'Light mode' : 'Dark mode'"
+          [attr.aria-label]="svc.isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'">
+          {{ svc.isDarkMode() ? '☀️' : '🌙' }}
+        </button>
+        <a href="/templates" class="topbar-btn" aria-label="Browse templates">🎭 Templates</a>
+        <button class="topbar-btn topbar-btn--danger" (click)="reset()" aria-label="Reset biodata">Reset</button>
+      </div>
+    </header>
+
+    <!-- ── Mobile Tab Bar ───────────────────────────────────────────── -->
+    <div class="mobile-tabs">
+      <button
+        class="tab-btn"
+        [ngClass]="{ active: mobileView() === 'edit' }"
+        (click)="mobileView.set('edit')">
+        ✏️ Edit
+      </button>
+      <button
+        class="tab-btn"
+        [ngClass]="{ active: mobileView() === 'preview' }"
+        (click)="mobileView.set('preview')">
+        👁 Preview
+      </button>
+    </div>
+
+    <!-- ── Split View ────────────────────────────────────────────────── -->
+    <div class="editor-body">
+
+      <!-- Left: Form -->
+      <aside class="editor-left" [ngClass]="{ 'mobile-hidden': mobileView() === 'preview' }">
+        <div class="panel-header">
+          <h2 class="panel-heading">Edit Details</h2>
+          <span class="panel-hint">Drag ⠿ to reorder · 👁 to hide</span>
+        </div>
+        <div class="panel-scroll">
+          <app-form-panel />
+        </div>
+      </aside>
+
+      <!-- Right: Preview -->
+      <main class="editor-right" [ngClass]="{ 'mobile-hidden': mobileView() === 'edit' }">
+        <app-preview-panel />
+      </main>
+    </div>
+
+  </div>
+</div>

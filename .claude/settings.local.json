@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(sudo npm install @angular/cdk html2canvas jspdf --legacy-peer-deps)",
+      "Bash(npm cache *)",
+      "Bash(mkdir -p /Users/risheikdhir/Desktop/code/angular/my-app/src/app/core/models)",
+      "Bash(mkdir -p /Users/risheikdhir/Desktop/code/angular/my-app/src/app/core/services)",
+      "Bash(mkdir -p /Users/risheikdhir/Desktop/code/angular/my-app/src/app/features/landing)",
+      "Bash(mkdir -p /Users/risheikdhir/Desktop/code/angular/my-app/src/app/features/editor/components/form-panel)",
+      "Bash(mkdir -p /Users/risheikdhir/Desktop/code/angular/my-app/src/app/features/editor/components/preview-panel)",
+      "Bash(npm run *)",
+      "Bash(npm start *)",
+      "Bash(curl -s http://localhost:4200)",
+      "Bash(curl -s http://localhost:4200/create)",
+      "Bash(curl -s http://localhost:4200/templates)",
+      "Bash(npx playwright *)",
+      "Read(//private/tmp/**)",
+      "Bash(npx -y playwright install --with-deps chromium)",
+      "Bash(npx --cache /tmp/npm-cache -y playwright --version)",
+      "Bash(npx --cache /tmp/npm-cache playwright install chromium)",
+      "Bash(node --input-type=module)"
+    ]
+  }
+}

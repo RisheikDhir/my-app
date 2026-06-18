@@ -1,0 +1,159 @@
+<div class="landing">
+
+  <!-- ══ HERO ════════════════════════════════════════════════════════════════ -->
+  <header class="hero" aria-label="Hero section">
+    <nav class="nav">
+      <div class="nav-logo">
+        <span class="logo-symbol" aria-hidden="true">✦</span>
+        <span>BiodataForge</span>
+      </div>
+      <div class="nav-links">
+        <a routerLink="/templates" class="nav-link">Templates</a>
+        <a routerLink="/create" class="nav-cta">Start Free →</a>
+      </div>
+    </nav>
+
+    <div class="hero-content">
+      <p class="hero-badge">✦ Free · No sign-up · Instant PDF</p>
+      <h1 class="hero-title">
+        Create Your<br>
+        <span class="hero-accent">Marriage Biodata</span><br>
+        in Minutes
+      </h1>
+      <p class="hero-subtitle">
+        The most beautiful, customizable matrimonial biodata creator.
+        5 premium templates, live preview, and a perfect A4 PDF download.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/create" class="btn-hero">Create My Biodata →</a>
+        <a routerLink="/templates" class="btn-hero-outline">Browse Templates</a>
+      </div>
+    </div>
+
+    <!-- Decorative preview mockup -->
+    <div class="hero-mockup" aria-hidden="true">
+      <div class="mockup-page mockup-royal">
+        <div class="m-header">
+          <div class="m-symbol">॥ श्री गणेशाय नमः ॥</div>
+          <div class="m-photo"></div>
+          <div class="m-name">Priya Sharma</div>
+        </div>
+        <div class="m-body">
+          <div class="m-section-title">Personal Details</div>
+          <div class="m-field"><span class="mfl">Date of Birth</span><span class="mfv">15 March 1998</span></div>
+          <div class="m-field"><span class="mfl">Height</span><span class="mfv">5'4"</span></div>
+          <div class="m-field"><span class="mfl">Occupation</span><span class="mfv">Software Engineer</span></div>
+          <div class="m-section-title" style="margin-top:8px">Family Details</div>
+          <div class="m-field"><span class="mfl">Father's Name</span><span class="mfv">Ramesh Sharma</span></div>
+          <div class="m-field"><span class="mfl">Native Place</span><span class="mfv">Lucknow, U.P.</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ FEATURES ══════════════════════════════════════════════════════════ -->
+  <section class="features-section" aria-label="Features">
+    <div class="container">
+      <h2 class="section-title">Everything you need for the perfect biodata</h2>
+      <p class="section-subtitle">Crafted for Indian matrimonial profiles — traditional values, modern design.</p>
+
+      <div class="features-grid">
+        @for (f of features; track f.title) {
+          <div class="feature-card">
+            <span class="feature-icon" aria-hidden="true">{{ f.icon }}</span>
+            <h3 class="feature-title">{{ f.title }}</h3>
+            <p class="feature-desc">{{ f.desc }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ HOW IT WORKS ══════════════════════════════════════════════════════ -->
+  <section class="steps-section" aria-label="How it works">
+    <div class="container">
+      <h2 class="section-title">Ready in 3 simple steps</h2>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Fill in your details</h3>
+          <p class="step-desc">Enter personal, family, education, and contact details. Add custom fields if needed.</p>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Choose a template</h3>
+          <p class="step-desc">Pick from 5 beautiful templates. Customize colors and fonts to match your style.</p>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Download your biodata</h3>
+          <p class="step-desc">Get a crisp A4 PDF or a PNG image — ready to print or share instantly.</p>
+        </div>
+      </div>
+
+      <div class="steps-cta">
+        <a routerLink="/create" class="btn-hero">Create Your Biodata Now →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FAQ ══════════════════════════════════════════════════════════════ -->
+  <section class="faq-section" aria-label="Frequently Asked Questions" id="faq">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+
+      <div class="faq-list">
+        @for (faq of faqs; track faq.q) {
+          <details class="faq-item">
+            <summary class="faq-question">{{ faq.q }}</summary>
+            <p class="faq-answer">{{ faq.a }}</p>
+          </details>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FINAL CTA ══════════════════════════════════════════════════════════ -->
+  <section class="final-cta" aria-label="Call to action">
+    <div class="container">
+      <p class="final-symbol" aria-hidden="true">॥ शुभ विवाह ॥</p>
+      <h2 class="final-title">Start creating your perfect biodata today</h2>
+      <p class="final-sub">Free forever · No sign-up · Perfect A4 PDF</p>
+      <a routerLink="/create" class="btn-hero">Create My Biodata →</a>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ═══════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-brand">
+          <span class="logo-symbol">✦</span> BiodataForge
+        </p>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a routerLink="/create">Create Biodata</a>
+          <a routerLink="/templates">Templates</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <p class="footer-note">Your data stays in your browser. We never store it.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "&#64;context": "https://schema.org",
+    "&#64;type": "WebApplication",
+    "name": "BiodataForge — Marriage Biodata Maker",
+    "description": "Free online marriage biodata creator with beautiful templates and instant PDF download.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "&#64;type": "Offer", "price": "0", "priceCurrency": "INR" }
+  }
+  </script>
+
+</div>

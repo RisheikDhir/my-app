@@ -1,0 +1,142 @@
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--editor-preview-bg);
+  overflow: hidden;
+}
+
+// ─── Toolbar ──────────────────────────────────────────────────────────────────
+.preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--editor-border);
+  background: var(--editor-surface);
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.toolbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--editor-border);
+  border-radius: 8px;
+  background: var(--editor-surface);
+  color: var(--editor-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover, &.active {
+    border-color: var(--editor-primary);
+    background: color-mix(in srgb, var(--editor-primary) 8%, transparent);
+    color: var(--editor-primary);
+  }
+
+  .chevron {
+    font-size: 18px;
+    line-height: 1;
+    transition: transform 0.2s;
+    display: inline-block;
+
+    &.open { transform: rotate(90deg); }
+  }
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.dl-btn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  &--image {
+    background: var(--editor-surface);
+    color: var(--editor-text-muted);
+    border: 1.5px solid var(--editor-border);
+
+    &:hover { border-color: var(--editor-primary); color: var(--editor-primary); }
+  }
+
+  &--pdf {
+    background: var(--editor-primary);
+    color: #fff;
+
+    &:hover { opacity: 0.88; }
+  }
+
+  &:disabled { opacity: 0.6; cursor: wait; }
+}
+
+.spinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(255,255,255,.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// ─── Template switcher drawer ─────────────────────────────────────────────────
+.switcher-panel {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--editor-border);
+  background: var(--editor-surface);
+  animation: slideDown 0.18s ease;
+  overflow-y: auto;
+  max-height: 280px;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// ─── Preview wrapper ──────────────────────────────────────────────────────────
+.preview-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-scaler {
+  transform-origin: top center;
+  width: 794px;
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,.15));
+  transition: height 0.1s;
+}
+
+.preview-note {
+  font-size: 11px;
+  color: var(--editor-text-muted);
+  opacity: 0.5;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 0.5px;
+}

@@ -1,0 +1,65 @@
+<div class="switcher">
+
+  <!-- Template cards -->
+  <div class="template-grid">
+    @for (t of templates; track t.id) {
+      <button
+        class="template-card"
+        [ngClass]="{ active: svc.selectedTemplateId() === t.id }"
+        [ngStyle]="{ '--tc-primary': t.defaultColors.primary, '--tc-accent': t.defaultColors.accent, '--tc-bg': t.defaultColors.background, '--tc-header': t.defaultColors.headerBg }"
+        (click)="selectTemplate(t.id)"
+        [attr.aria-pressed]="svc.selectedTemplateId() === t.id"
+        [title]="t.description">
+
+        <div class="tc-preview">
+          <div class="tc-header"></div>
+          <div class="tc-lines">
+            <div class="tc-line long"></div>
+            <div class="tc-line short"></div>
+            <div class="tc-line med"></div>
+            <div class="tc-line short"></div>
+          </div>
+        </div>
+        <span class="tc-name">{{ t.name }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- Font pair picker -->
+  <div class="picker-section">
+    <h4 class="picker-label">Font Style</h4>
+    <div class="font-options">
+      @for (fp of svc.activeTemplate().fontPairs; track fp.id) {
+        <button
+          class="font-btn"
+          [ngClass]="{ active: (svc.selectedFontPairId() ?? svc.activeTemplate().defaultFontPairId) === fp.id }"
+          (click)="selectFontPair(fp.id)"
+          [ngStyle]="{ 'font-family': fp.heading }">
+          {{ fp.name }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Color palette picker -->
+  <div class="picker-section">
+    <h4 class="picker-label">Colors</h4>
+    <div class="color-swatches">
+      @for (ck of colorKeys; track ck.key) {
+        <div class="swatch-wrap" [title]="ck.label">
+          <input
+            type="color"
+            class="color-input"
+            [value]="getColorValue(ck.key)"
+            (input)="updateColor(ck.key, $event)"
+            [id]="'color-' + ck.key" />
+          <label [for]="'color-' + ck.key" class="swatch-label">
+            <span class="swatch" [ngStyle]="{ background: getColorValue(ck.key) }"></span>
+            <span class="swatch-name">{{ ck.label }}</span>
+          </label>
+        </div>
+      }
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,214 @@
+<div class="form-panel">
+
+  <!-- ── Header Symbol ──────────────────────────────────────────────── -->
+  <div class="panel-section panel-section--compact">
+    <label class="form-label" for="header-symbol">Opening Symbol / Quote</label>
+    <input
+      id="header-symbol"
+      type="text"
+      class="form-input"
+      [value]="svc.biodata().headerSymbol"
+      (input)="updateHeaderSymbol($any($event.target).value)"
+      placeholder="॥ श्री गणेशाय नमः ॥" />
+    <p class="form-hint">Appears at the top of your biodata</p>
+  </div>
+
+  <!-- ── Photo Upload ───────────────────────────────────────────────── -->
+  <div class="panel-section panel-section--compact">
+    <p class="form-label">Profile Photo</p>
+    <div class="photo-row">
+      @if (svc.biodata().photo) {
+        <div class="photo-preview" [ngClass]="'shape-' + svc.biodata().photoShape">
+          <img [src]="svc.biodata().photo" alt="Profile preview" />
+          <button class="photo-remove" (click)="removePhoto()" title="Remove photo" aria-label="Remove photo">✕</button>
+        </div>
+      } @else {
+        <label class="photo-upload-btn" for="photo-input">
+          <span class="upload-icon">📷</span>
+          <span>Upload Photo</span>
+          <input id="photo-input" type="file" accept="image/*" (change)="onPhotoSelected($event)" class="sr-only" />
+        </label>
+      }
+
+      <div class="shape-picker">
+        <p class="form-hint">Shape</p>
+        <div class="shape-options">
+          <button
+            class="shape-btn"
+            [ngClass]="{ active: svc.biodata().photoShape === 'circular' }"
+            (click)="setPhotoShape('circular')">Circle</button>
+          <button
+            class="shape-btn"
+            [ngClass]="{ active: svc.biodata().photoShape === 'rectangular' }"
+            (click)="setPhotoShape('rectangular')">Rectangle</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Sections ──────────────────────────────────────────────────── -->
+  <div
+    cdkDropList
+    [cdkDropListData]="svc.sections()"
+    (cdkDropListDropped)="dropSection($event)"
+    class="sections-list">
+
+    @for (section of svc.sections(); track section.id) {
+      <div class="section-card" cdkDrag [cdkDragData]="section">
+
+        <!-- Section drag handle + header -->
+        <div class="section-header" (click)="toggleSection(section.id)">
+          <span class="drag-handle" cdkDragHandle title="Drag to reorder">⠿</span>
+          <span class="section-icon">{{ section.icon }}</span>
+
+          @if (section.isCustom) {
+            <input
+              class="section-title-input"
+              type="text"
+              [value]="section.title"
+              (blur)="onSectionTitleBlur(section.id, $any($event.target).value)"
+              (click)="$event.stopPropagation()"
+              placeholder="Section title" />
+          } @else {
+            <span class="section-title">{{ section.title }}</span>
+          }
+
+          <div class="section-actions">
+            <button
+              class="icon-btn"
+              [ngClass]="{ 'btn-dim': !section.visible }"
+              (click)="toggleSectionVisibility(section.id, $event)"
+              [title]="section.visible ? 'Hide section' : 'Show section'"
+              [attr.aria-label]="section.visible ? 'Hide section' : 'Show section'">
+              {{ section.visible ? '👁' : '🙈' }}
+            </button>
+            @if (section.isCustom) {
+              <button
+                class="icon-btn icon-btn--danger"
+                (click)="deleteSection(section.id, $event)"
+                title="Delete section"
+                aria-label="Delete section">🗑</button>
+            }
+            <span class="collapse-icon" [ngClass]="{ rotated: section.collapsed }">›</span>
+          </div>
+        </div>
+
+        <!-- Section body (fields) -->
+        @if (!section.collapsed) {
+          <div class="section-body">
+            <div
+              cdkDropList
+              [cdkDropListData]="section.fields"
+              (cdkDropListDropped)="dropField($event, section.id)"
+              class="fields-list">
+
+              @for (field of section.fields; track field.id) {
+                <div class="field-row" cdkDrag [cdkDragData]="field">
+                  <span class="drag-handle small" cdkDragHandle title="Drag to reorder">⠿</span>
+
+                  <div class="field-inner" [ngClass]="{ 'field-hidden': !field.visible }">
+                    <label class="field-label" [for]="'field-' + field.id">
+                      {{ field.label }}
+                      @if (field.isCustom) { <span class="custom-badge">custom</span> }
+                    </label>
+
+                    @if (field.type === 'textarea') {
+                      <textarea
+                        [id]="'field-' + field.id"
+                        class="form-input form-textarea"
+                        [value]="field.value"
+                        (input)="updateField(section.id, field.id, $any($event.target).value)"
+                        [placeholder]="field.placeholder || ''">
+                      </textarea>
+                    } @else if (field.type === 'dropdown' && field.options) {
+                      <select
+                        [id]="'field-' + field.id"
+                        class="form-input"
+                        [value]="field.value"
+                        (change)="updateField(section.id, field.id, $any($event.target).value)">
+                        <option value="">Select...</option>
+                        @for (opt of field.options; track opt) {
+                          <option [value]="opt" [selected]="field.value === opt">{{ opt }}</option>
+                        }
+                      </select>
+                    } @else {
+                      <input
+                        [id]="'field-' + field.id"
+                        class="form-input"
+                        [type]="field.type === 'phone' ? 'tel' : field.type === 'number' ? 'number' : field.type === 'date' ? 'text' : field.type === 'email' ? 'email' : 'text'"
+                        [value]="field.value"
+                        (input)="updateField(section.id, field.id, $any($event.target).value)"
+                        [placeholder]="field.placeholder || ''" />
+                    }
+                  </div>
+
+                  <div class="field-actions">
+                    <button
+                      class="icon-btn sm"
+                      [ngClass]="{ 'btn-dim': !field.visible }"
+                      (click)="toggleFieldVisibility(section.id, field.id, $event)"
+                      [title]="field.visible ? 'Hide field' : 'Show field'">
+                      {{ field.visible ? '👁' : '🙈' }}
+                    </button>
+                    @if (field.isCustom) {
+                      <button
+                        class="icon-btn sm icon-btn--danger"
+                        (click)="deleteField(section.id, field.id)"
+                        title="Delete field">🗑</button>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Add custom field -->
+            @if (addFieldSectionId() === section.id) {
+              <div class="add-field-form">
+                <input
+                  type="text"
+                  class="form-input"
+                  [(ngModel)]="newFieldLabel"
+                  placeholder="Field label (e.g., Favourite Color)"
+                  autofocus />
+                <select class="form-input" [(ngModel)]="newFieldType">
+                  @for (ft of fieldTypes; track ft.value) {
+                    <option [value]="ft.value">{{ ft.label }}</option>
+                  }
+                </select>
+                <div class="add-field-actions">
+                  <button class="btn-primary sm" (click)="confirmAddField()">Add</button>
+                  <button class="btn-ghost sm" (click)="cancelAddField()">Cancel</button>
+                </div>
+              </div>
+            } @else {
+              <button class="add-field-btn" (click)="showAddField(section.id)">
+                <span>+</span> Add custom field
+              </button>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- ── Add Section ────────────────────────────────────────────────── -->
+  @if (addingSectionTitle()) {
+    <div class="add-section-form">
+      <input
+        type="text"
+        class="form-input"
+        [(ngModel)]="newSectionTitle"
+        placeholder="Section title (e.g., Expectations)"
+        autofocus />
+      <div class="add-field-actions">
+        <button class="btn-primary" (click)="confirmAddSection()">Add Section</button>
+        <button class="btn-ghost" (click)="cancelAddSection()">Cancel</button>
+      </div>
+    </div>
+  } @else {
+    <button class="add-section-btn" (click)="showAddSection()">
+      <span>+</span> Add custom section
+    </button>
+  }
+
+</div>

@@ -1,0 +1,59 @@
+<div class="preview-panel">
+
+  <!-- ── Toolbar ────────────────────────────────────────────────────── -->
+  <div class="preview-toolbar">
+    <button
+      class="toolbar-btn"
+      [ngClass]="{ active: showTemplateSwitcher() }"
+      (click)="toggleTemplateSwitcher()">
+      <span>🎨</span>
+      <span>Templates & Style</span>
+      <span class="chevron" [ngClass]="{ open: showTemplateSwitcher() }">›</span>
+    </button>
+
+    <div class="toolbar-right">
+      <button
+        class="dl-btn dl-btn--image"
+        (click)="downloadImage()"
+        [disabled]="isDownloading()"
+        title="Download as image (PNG)">
+        🖼 PNG
+      </button>
+      <button
+        class="dl-btn dl-btn--pdf"
+        (click)="downloadPdf()"
+        [disabled]="isDownloading()">
+        @if (isDownloading()) {
+          <span class="spinner"></span> Generating…
+        } @else {
+          📄 Download PDF
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Template Switcher (collapsible) ───────────────────────────── -->
+  @if (showTemplateSwitcher()) {
+    <div class="switcher-panel">
+      <app-template-switcher />
+    </div>
+  }
+
+  <!-- ── A4 Preview ─────────────────────────────────────────────────── -->
+  <div class="preview-wrapper" #previewWrapper>
+    <div
+      class="preview-scaler"
+      [ngStyle]="{
+        'transform': 'scale(' + previewScale() + ')',
+        'height': (1123 * previewScale()) + 'px'
+      }">
+      <app-biodata-preview
+        [biodata]="svc.biodata()"
+        [template]="svc.activeTemplate()"
+        [colors]="svc.effectiveColors()"
+        [fontPair]="svc.activeFontPair()" />
+    </div>
+    <p class="preview-note">A4 preview · actual PDF will match this exactly</p>
+  </div>
+
+</div>
