@@ -32,7 +32,7 @@
 
     <!-- ── Top Bar ──────────────────────────────────────────────────── -->
     <header class="editor-topbar">
-      <a href="/" class="editor-logo" aria-label="BiodataForge home">
+      <a routerLink="/" class="editor-logo" aria-label="BiodataForge home">
         <span class="logo-symbol">✦</span>
         <span class="logo-text">BiodataForge</span>
       </a>
@@ -54,7 +54,7 @@
           [attr.aria-label]="svc.isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'">
           {{ svc.isDarkMode() ? '☀️' : '🌙' }}
         </button>
-        <a href="/templates" class="topbar-btn" aria-label="Browse templates">🎭 Templates</a>
+        <a routerLink="/templates" class="topbar-btn" aria-label="Browse templates">🎭 Templates</a>
         <button class="topbar-btn topbar-btn--danger" (click)="reset()" aria-label="Reset biodata">Reset</button>
       </div>
     </header>

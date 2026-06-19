@@ -1,5 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BiodataService } from '../../core/services/biodata.service';
 import { SeoService } from '../../core/services/seo.service';
@@ -9,7 +10,7 @@ import { PreviewPanelComponent } from './components/preview-panel/preview-panel.
 @Component({
   selector: 'app-editor',
   standalone: true,
-  imports: [NgClass, FormsModule, FormPanelComponent, PreviewPanelComponent],
+  imports: [NgClass, RouterLink, FormsModule, FormPanelComponent, PreviewPanelComponent],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss',
 })

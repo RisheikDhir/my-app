@@ -1,0 +1,8 @@
+{
+  "framework": "angular",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/my-app",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/server/server.mjs" }
+  ]
+}

@@ -19,7 +19,12 @@
       "Bash(npx -y playwright install --with-deps chromium)",
       "Bash(npx --cache /tmp/npm-cache -y playwright --version)",
       "Bash(npx --cache /tmp/npm-cache playwright install chromium)",
-      "Bash(node --input-type=module)"
+      "Bash(node --input-type=module)",
+      "Bash(vercel --version)",
+      "Bash(netlify --version)",
+      "Bash(npx --cache /tmp/npm-cache vercel --version)",
+      "Bash(pkill -f \"ng serve\")",
+      "Bash(git push *)"
     ]
   }
 }
