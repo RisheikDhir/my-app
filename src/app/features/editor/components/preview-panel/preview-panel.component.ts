@@ -3,8 +3,11 @@ import { isPlatformBrowser } from '@angular/common';
 import { NgStyle, NgClass } from '@angular/common';
 import { BiodataService } from '../../../../core/services/biodata.service';
 import { PdfService } from '../../../../core/services/pdf.service';
+import { PaymentService } from '../../../../core/services/payment.service';
 import { BiodataPreviewComponent } from '../biodata-preview/biodata-preview.component';
 import { TemplateSwitcherComponent } from '../template-switcher/template-switcher.component';
+
+type DownloadState = 'idle' | 'paying' | 'generating' | 'success' | 'error';
 
 @Component({
   selector: 'app-preview-panel',
@@ -16,10 +19,12 @@ import { TemplateSwitcherComponent } from '../template-switcher/template-switche
 export class PreviewPanelComponent implements AfterViewInit {
   protected svc = inject(BiodataService);
   private pdfSvc = inject(PdfService);
+  protected paymentSvc = inject(PaymentService);
   private platformId = inject(PLATFORM_ID);
 
   protected previewScale = signal(0.5);
-  protected isDownloading = signal(false);
+  protected downloadState = signal<DownloadState>('idle');
+  protected errorMessage = signal('');
   protected showTemplateSwitcher = signal(false);
 
   @ViewChild('previewWrapper') previewWrapper!: ElementRef<HTMLElement>;
@@ -35,7 +40,6 @@ export class PreviewPanelComponent implements AfterViewInit {
 
   private computeScale(): void {
     const w = this.previewWrapper?.nativeElement?.offsetWidth ?? 400;
-    // A4 width = 794px, leave 32px padding on each side
     this.previewScale.set(Math.min((w - 32) / 794, 1));
   }
 
@@ -44,20 +48,48 @@ export class PreviewPanelComponent implements AfterViewInit {
   }
 
   async downloadPdf(): Promise<void> {
-    this.isDownloading.set(true);
-    try {
+    await this.runWithPayment(async () => {
       await this.pdfSvc.downloadPdf(this.getPageElement(), this.svc.fullName());
-    } finally {
-      this.isDownloading.set(false);
-    }
+    });
   }
 
   async downloadImage(): Promise<void> {
-    this.isDownloading.set(true);
-    try {
+    await this.runWithPayment(async () => {
       await this.pdfSvc.downloadImage(this.getPageElement(), this.svc.fullName());
-    } finally {
-      this.isDownloading.set(false);
+    });
+  }
+
+  private async runWithPayment(action: () => Promise<void>): Promise<void> {
+    this.errorMessage.set('');
+
+    // Payment step (skipped if already paid this session)
+    if (!this.paymentSvc.isPaid()) {
+      this.downloadState.set('paying');
+      try {
+        await this.paymentSvc.requestPayment(this.svc.fullName());
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : String(err);
+        if (msg === 'cancelled') {
+          this.downloadState.set('idle');
+        } else {
+          this.errorMessage.set(msg);
+          this.downloadState.set('error');
+          setTimeout(() => this.downloadState.set('idle'), 4000);
+        }
+        return;
+      }
+    }
+
+    // Generate and download
+    this.downloadState.set('generating');
+    try {
+      await action();
+      this.downloadState.set('success');
+      setTimeout(() => this.downloadState.set('idle'), 2500);
+    } catch {
+      this.errorMessage.set('Download failed. Please try again.');
+      this.downloadState.set('error');
+      setTimeout(() => this.downloadState.set('idle'), 4000);
     }
   }
 

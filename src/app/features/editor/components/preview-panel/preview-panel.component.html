@@ -12,25 +12,70 @@
     </button>
 
     <div class="toolbar-right">
+
+      <!-- PNG download -->
       <button
         class="dl-btn dl-btn--image"
         (click)="downloadImage()"
-        [disabled]="isDownloading()"
-        title="Download as image (PNG)">
-        🖼 PNG
+        [disabled]="downloadState() === 'paying' || downloadState() === 'generating'"
+        title="Download as PNG image">
+        @if (downloadState() === 'generating') {
+          <span class="spinner sm"></span>
+        } @else {
+          🖼
+        }
+        <span>PNG</span>
+        @if (!paymentSvc.isPaid()) {
+          <span class="price-badge">₹10</span>
+        }
       </button>
+
+      <!-- PDF download -->
       <button
         class="dl-btn dl-btn--pdf"
         (click)="downloadPdf()"
-        [disabled]="isDownloading()">
-        @if (isDownloading()) {
-          <span class="spinner"></span> Generating…
-        } @else {
-          📄 Download PDF
+        [disabled]="downloadState() === 'paying' || downloadState() === 'generating'">
+
+        @switch (downloadState()) {
+          @case ('paying') {
+            <span class="spinner sm"></span>
+            <span>Opening payment…</span>
+          }
+          @case ('generating') {
+            <span class="spinner sm"></span>
+            <span>Generating PDF…</span>
+          }
+          @case ('success') {
+            <span>✓ Downloaded!</span>
+          }
+          @case ('error') {
+            <span>⚠ Retry</span>
+          }
+          @default {
+            <span>📄 Download PDF</span>
+            @if (!paymentSvc.isPaid()) {
+              <span class="price-badge">₹10</span>
+            }
+          }
         }
       </button>
+
     </div>
   </div>
+
+  <!-- ── Payment status strip ───────────────────────────────────────── -->
+  @if (paymentSvc.isPaid()) {
+    <div class="payment-strip payment-strip--paid">
+      <span>✓</span>
+      <span>Payment verified · Unlimited downloads unlocked for this session</span>
+      <span class="payment-id">ID: {{ paymentSvc.lastPaymentId() }}</span>
+    </div>
+  }
+  @if (downloadState() === 'error') {
+    <div class="payment-strip payment-strip--error">
+      ⚠ {{ errorMessage() }}
+    </div>
+  }
 
   <!-- ── Template Switcher (collapsible) ───────────────────────────── -->
   @if (showTemplateSwitcher()) {
@@ -41,6 +86,23 @@
 
   <!-- ── A4 Preview ─────────────────────────────────────────────────── -->
   <div class="preview-wrapper" #previewWrapper>
+
+    <!-- Payment gate overlay — shown while paying -->
+    @if (downloadState() === 'paying') {
+      <div class="payment-overlay">
+        <div class="payment-overlay-card">
+          <div class="payment-overlay-icon">💳</div>
+          <p class="payment-overlay-title">Complete payment to download</p>
+          <p class="payment-overlay-sub">Razorpay checkout is opening…</p>
+          <div class="payment-overlay-amount">
+            <span class="amount-label">Amount</span>
+            <span class="amount-value">₹10</span>
+          </div>
+          <p class="payment-overlay-note">Secure · One-time · Instant download after payment</p>
+        </div>
+      </div>
+    }
+
     <div
       class="preview-scaler"
       [ngStyle]="{
@@ -53,7 +115,8 @@
         [colors]="svc.effectiveColors()"
         [fontPair]="svc.activeFontPair()" />
     </div>
-    <p class="preview-note">A4 preview · actual PDF will match this exactly</p>
+
+    <p class="preview-note">A4 preview · ₹10 per download · Pay once, download both formats</p>
   </div>
 
 </div>
