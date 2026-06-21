@@ -1,0 +1,60 @@
+<div class="page-hero container">
+  <h1>Simple, Transparent Pricing</h1>
+  <p>Free to preview. Pay only when you're ready to download.</p>
+</div>
+
+<section class="plans-section container">
+  <div class="plans-grid">
+    @for (plan of plans; track plan.id) {
+      <div class="plan-card" [class.highlighted]="plan.highlighted">
+        @if (plan.badge) { <div class="plan-badge">{{ plan.badge }}</div> }
+        <h2 class="plan-name">{{ plan.name }}</h2>
+        <p class="plan-desc">{{ plan.description }}</p>
+        <div class="plan-price">
+          <span class="price-amount">{{ formatPrice(plan.priceInPaise) }}</span>
+          @if (plan.interval) { <span class="price-interval">/ {{ plan.interval }}</span> }
+        </div>
+        @if (plan.priceInPaise === 0) {
+          <a routerLink="/generator" class="btn btn-outline">Start Free →</a>
+        } @else if (isPro()) {
+          <span class="btn btn-active">✓ Current Plan</span>
+        } @else {
+          <button class="btn btn-primary" (click)="openUpgrade()">Get {{ plan.name }} →</button>
+        }
+        <ul class="feature-list">
+          @for (f of plan.features; track f) {
+            <li class="feature-item"><span class="check">✓</span>{{ f }}</li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="per-download-section container">
+  <div class="per-download-card">
+    <div>
+      <h3>Pay Per Download</h3>
+      <p>No plan needed. Download any document for ₹10 per PDF. Watermark-free.</p>
+    </div>
+    <a routerLink="/generator" class="btn btn-primary">Download for ₹10</a>
+  </div>
+</section>
+
+<section class="faq-section container">
+  <h2 class="section-title">Pricing FAQ</h2>
+  <div class="faqs">
+    <details class="faq-item">
+      <summary>What payment methods are accepted?</summary>
+      <p>All major payment methods via Razorpay — UPI, debit/credit cards, net banking, and popular wallets.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Can I get a refund?</summary>
+      <p>Yes. If you are unable to download your document after payment, contact us within 24 hours for a full refund. See our <a routerLink="/refund-policy">Refund Policy</a>.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Does the free plan include any downloads?</summary>
+      <p>The free plan allows unlimited previews. You pay ₹10 per download or upgrade to Pro for unlimited downloads.</p>
+    </details>
+  </div>
+</section>

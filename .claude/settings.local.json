@@ -24,7 +24,14 @@
       "Bash(netlify --version)",
       "Bash(npx --cache /tmp/npm-cache vercel --version)",
       "Bash(pkill -f \"ng serve\")",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(curl -s \"https://risheikdhir.github.io/my-app/\")",
+      "Bash(node -e \"require\\('playwright'\\)\")",
+      "Read(//tmp/node_modules/**)",
+      "Bash(node /tmp/node_modules/.bin/playwright --version)",
+      "Bash(npx ng *)",
+      "Bash(xargs cat)",
+      "Bash(npx tsc *)"
     ]
   }
 }

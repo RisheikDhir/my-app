@@ -1,0 +1,122 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  padding: 24px;
+}
+
+.auth-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 420px;
+  width: 100%;
+}
+
+.auth-logo {
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #6366f1;
+  text-decoration: none;
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.auth-sub {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.auth-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.15s;
+
+    &:focus { border-color: #6366f1; }
+  }
+}
+
+.btn-auth {
+  width: 100%;
+  padding: 13px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+  margin-bottom: 16px;
+  transition: opacity 0.15s;
+
+  &:hover:not(:disabled) { opacity: 0.88; }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+.auth-alt {
+  text-align: center;
+  font-size: 13.5px;
+  color: #6b7280;
+
+  a { color: #6366f1; font-weight: 600; text-decoration: none; }
+}
+
+.auth-divider {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 12px;
+  margin: 14px 0;
+}
+
+.btn-guest {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s;
+
+  &:hover { border-color: #6366f1; color: #6366f1; }
+}

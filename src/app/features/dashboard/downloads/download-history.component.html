@@ -1,0 +1,35 @@
+<div class="page">
+  <h1>Download History</h1>
+
+  @if (downloads().length === 0) {
+    <div class="empty-state">
+      <span class="es-icon">⬇️</span>
+      <h2>No downloads yet</h2>
+      <p>Your PDF downloads will appear here.</p>
+      <a routerLink="/generator" class="btn-primary">Create a Document →</a>
+    </div>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Document</th>
+            <th>Format</th>
+            <th>Payment ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (d of downloads(); track d.id) {
+            <tr>
+              <td class="date">{{ d.downloadedAt | date:'d MMM y, h:mm a' }}</td>
+              <td class="doc-name">{{ docTitle(d.documentId) }}</td>
+              <td><span class="format-badge">{{ d.format | uppercase }}</span></td>
+              <td class="pay-id">{{ d.paymentId ?? '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

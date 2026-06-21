@@ -1,0 +1,133 @@
+.page { max-width: 600px; }
+h1 { font-size: 22px; font-weight: 800; margin-bottom: 24px; }
+
+.profile-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 16px;
+}
+
+.avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #a78bfa);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-name  { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+.avatar-email { font-size: 13px; color: #9ca3af; }
+
+.divider { height: 1px; background: #f3f4f6; margin-bottom: 24px; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 24px;
+
+  @media (max-width: 540px) { grid-template-columns: 1fr; }
+}
+
+.form-group {
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #374151;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+    background: #fff;
+
+    &:focus { border-color: #6366f1; }
+  }
+}
+
+.pref-section { margin-bottom: 24px; }
+
+.pref-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+.theme-toggle-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.theme-btn {
+  padding: 7px 16px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  background: #fff;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &.active {
+    border-color: #6366f1;
+    background: #eef2ff;
+    color: #6366f1;
+    font-weight: 700;
+  }
+
+  &:hover:not(.active) { border-color: #9ca3af; color: #374151; }
+}
+
+.actions { display: flex; }
+
+.btn-save {
+  padding: 11px 28px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  min-width: 140px;
+
+  &:hover:not(:disabled) { opacity: 0.88; }
+  &:disabled { opacity: 0.65; cursor: not-allowed; }
+}
+
+.data-notice {
+  font-size: 12.5px;
+  color: #9ca3af;
+  text-align: center;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 10px;
+}

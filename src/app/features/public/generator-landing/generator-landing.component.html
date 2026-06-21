@@ -1,0 +1,86 @@
+@if (generator) {
+  <!-- Hero -->
+  <section class="gen-hero">
+    <div class="container">
+      <div class="gen-badge" [style.background]="generator.color + '18'" [style.color]="generator.color">
+        {{ generator.icon }} {{ generator.category | uppercase }}
+      </div>
+      <h1 class="gen-title">{{ generator.name }}</h1>
+      <p class="gen-desc">{{ generator.description }}</p>
+      <div class="gen-actions">
+        <a [routerLink]="createRoute" class="btn btn-primary btn-lg">
+          Create {{ generator.name }} Free →
+        </a>
+        <div class="gen-meta">
+          <span>⏱ ~{{ generator.formSchema.estimatedMinutes }} min to complete</span>
+          <span>📄 {{ generator.supportedTemplateIds.length }} templates</span>
+          @if (generator.isAtsOptimized) { <span>🤖 ATS Optimised</span> }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Templates -->
+  @if (templates.length > 0) {
+    <section class="section container">
+      <h2>Available Templates</h2>
+      <div class="template-grid">
+        @for (t of templates; track t.id) {
+          <div class="tpl-card">
+            <div class="tpl-thumb" [style.background]="t.theme.primaryColor + '15'">
+              <span style="font-size:36px">📄</span>
+              @if (!isTemplateFree(t)) { <span class="tpl-pro">PRO</span> }
+              @else { <span class="tpl-free">FREE</span> }
+            </div>
+            <div class="tpl-info">
+              <h3>{{ t.name }}</h3>
+              <a [routerLink]="createRoute" [queryParams]="{ templateId: t.id }" class="use-link">Use This Template →</a>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- Features of this generator -->
+  <section class="section bg-surface">
+    <div class="container">
+      <h2>Why Use DocForge for {{ generator.name }}?</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <span class="fi">✅</span>
+          <div><h3>Live Preview</h3><p>See your document update in real-time as you type. No refresh needed.</p></div>
+        </div>
+        <div class="feature-item">
+          <span class="fi">💾</span>
+          <div><h3>Auto-Save Draft</h3><p>Your progress is saved automatically. Come back and continue editing any time.</p></div>
+        </div>
+        <div class="feature-item">
+          <span class="fi">🔀</span>
+          <div><h3>Switch Templates Freely</h3><p>Try different templates without losing any of your data.</p></div>
+        </div>
+        <div class="feature-item">
+          <span class="fi">📱</span>
+          <div><h3>Mobile Friendly</h3><p>Works on phones and tablets. Fill your form anywhere.</p></div>
+        </div>
+        <div class="feature-item">
+          <span class="fi">🔒</span>
+          <div><h3>100% Private</h3><p>Your data stays in your browser. Nothing is sent to any server.</p></div>
+        </div>
+        <div class="feature-item">
+          <span class="fi">💳</span>
+          <div><h3>Pay Only ₹10</h3><p>Preview is always free. Pay just ₹10 to download your PDF.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section container cta-section">
+    <div class="cta-card">
+      <h2>Ready to Create Your {{ generator.name }}?</h2>
+      <p>Join 50,000+ Indians who have used DocForge to create professional documents.</p>
+      <a [routerLink]="createRoute" class="btn btn-primary btn-lg">Get Started for Free →</a>
+    </div>
+  </section>
+}

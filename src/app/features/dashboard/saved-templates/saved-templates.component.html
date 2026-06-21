@@ -1,0 +1,36 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Saved Templates</h1>
+    <a routerLink="/templates" class="btn-browse">Browse Templates</a>
+  </div>
+
+  @if (savedTemplates().length === 0) {
+    <div class="empty-state">
+      <span class="es-icon">🔖</span>
+      <h2>No saved templates yet</h2>
+      <p>Bookmark your favourite templates from the gallery for quick access.</p>
+      <a routerLink="/templates" class="btn-primary">Browse Templates →</a>
+    </div>
+  } @else {
+    <div class="templates-grid">
+      @for (t of savedTemplates(); track t.id) {
+        <div class="template-card">
+          <div class="template-thumb" [style.background]="'#f3f4f6'">
+            <span class="thumb-icon">🖼️</span>
+            @if (t.isPremium) {
+              <span class="premium-badge">PRO</span>
+            }
+          </div>
+          <div class="template-info">
+            <p class="template-name">{{ t.name }}</p>
+            <p class="template-cat">{{ t.category | titlecase }}</p>
+          </div>
+          <div class="template-actions">
+            <a [routerLink]="useTemplate(t)" class="btn-use">Use</a>
+            <button class="btn-remove" (click)="unsave(t.id)" title="Remove bookmark">🗑️</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,96 @@
+<header class="site-header">
+  <div class="header-inner container">
+
+    <!-- Logo -->
+    <a routerLink="/" class="logo" (click)="closeMenu()">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">DocForge</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="nav-desktop" aria-label="Main navigation">
+      @for (link of navLinks; track link.path) {
+        <a [routerLink]="link.path" routerLinkActive="active" class="nav-link">{{ link.label }}</a>
+      }
+    </nav>
+
+    <!-- Desktop CTA -->
+    <div class="header-cta">
+      <a routerLink="/generator" class="btn btn-primary">Create Document</a>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button class="hamburger" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  @if (menuOpen) {
+    <nav class="nav-mobile" aria-label="Mobile navigation">
+      @for (link of navLinks; track link.path) {
+        <a [routerLink]="link.path" routerLinkActive="active" class="nav-link" (click)="closeMenu()">{{ link.label }}</a>
+      }
+      <a routerLink="/generator" class="btn btn-primary mobile-cta" (click)="closeMenu()">Create Document</a>
+    </nav>
+  }
+</header>
+
+<main class="main-content">
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner container">
+    <div class="footer-brand">
+      <a routerLink="/" class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">DocForge</span>
+      </a>
+      <p class="footer-tagline">Create professional documents instantly. Free to preview, pay only to download.</p>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4 class="footer-heading">Generators</h4>
+        <a routerLink="/resume-generator">Resume Generator</a>
+        <a routerLink="/cv-generator">CV Generator</a>
+        <a routerLink="/biodata-generator">Bio Data Generator</a>
+        <a routerLink="/marriage-biodata-generator">Marriage Biodata</a>
+        <a routerLink="/cover-letter-generator">Cover Letter</a>
+        <a routerLink="/ats-resume-generator">ATS Resume</a>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading">Specialised</h4>
+        <a routerLink="/fresher-resume-generator">Fresher Resume</a>
+        <a routerLink="/teacher-resume-generator">Teacher Resume</a>
+        <a routerLink="/developer-resume-generator">Developer Resume</a>
+        <a routerLink="/designer-resume-generator">Designer Resume</a>
+        <a routerLink="/portfolio-resume-generator">Portfolio Resume</a>
+        <a routerLink="/job-application-letter-generator">Job Application Letter</a>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading">Company</h4>
+        <a routerLink="/about">About</a>
+        <a routerLink="/pricing">Pricing</a>
+        <a routerLink="/templates">Templates</a>
+        <a routerLink="/contact">Contact</a>
+        <a routerLink="/faq">FAQ</a>
+        <a routerLink="/dashboard">Dashboard</a>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading">Legal</h4>
+        <a routerLink="/privacy-policy">Privacy Policy</a>
+        <a routerLink="/terms-and-conditions">Terms & Conditions</a>
+        <a routerLink="/refund-policy">Refund Policy</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom container">
+    <p>© {{ currentYear }} DocForge. All rights reserved.</p>
+    <p class="footer-payment-note">Payments secured by <strong>Razorpay</strong></p>
+  </div>
+</footer>

@@ -1,0 +1,51 @@
+<div class="page">
+  <h1>Billing &amp; Plan</h1>
+
+  <div class="current-plan-card" [class.pro]="isPro()">
+    <div class="plan-left">
+      <span class="plan-badge" [class.pro]="isPro()">
+        {{ isPro() ? '⭐ ' + planLabel() : '🆓 Free Plan' }}
+      </span>
+      <p class="plan-desc">
+        @if (isPro()) {
+          You have unlimited downloads and access to all premium templates.
+        } @else {
+          Free preview for all generators. Pay ₹10 per watermark-free PDF download.
+        }
+      </p>
+      <p class="total-spent">Total spent: <strong>₹{{ totalSpent() }}</strong></p>
+    </div>
+    @if (!isPro()) {
+      <button class="btn-upgrade" (click)="openUpgradeModal()">⭐ Upgrade to Pro →</button>
+    }
+  </div>
+
+  @if (!isPro()) {
+    <div class="upgrade-cta-card">
+      <div class="cta-left">
+        <h2>Unlock Pro — ₹199/month</h2>
+        <p>All premium templates · Unlimited watermark-free PDFs · Priority support</p>
+        <ul class="cta-perks">
+          <li>✓ Access all 20+ premium templates</li>
+          <li>✓ Download unlimited PDFs without watermark</li>
+          <li>✓ Save ₹990/year on the yearly plan</li>
+        </ul>
+      </div>
+      <button class="btn-cta-upgrade" (click)="openUpgradeModal()">
+        View Plans &amp; Upgrade
+      </button>
+    </div>
+  } @else {
+    <div class="pro-active-card">
+      <span class="pro-icon">⭐</span>
+      <div>
+        <p class="pro-active-title">Pro plan is active</p>
+        <p class="pro-active-sub">You have unlimited downloads and access to all premium templates.</p>
+      </div>
+    </div>
+  }
+
+  <div class="links-row">
+    <a routerLink="/dashboard/payments" class="text-link">View payment history →</a>
+  </div>
+</div>

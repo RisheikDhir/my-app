@@ -1,0 +1,96 @@
+<div class="overview">
+  <div class="page-header">
+    <div>
+      <h1>Welcome back{{ profile()?.displayName ? ', ' + profile()!.displayName.split(' ')[0] : '' }} 👋</h1>
+      <p class="page-sub">Here's what's happening with your documents.</p>
+    </div>
+    <a routerLink="/generator" class="btn-new">+ New Document</a>
+  </div>
+
+  <div class="stats-grid">
+    @for (s of stats(); track s.label) {
+      <div class="stat-card">
+        <span class="stat-icon">{{ s.icon }}</span>
+        <div class="stat-val">{{ s.value }}</div>
+        <div class="stat-label">{{ s.label }}</div>
+      </div>
+    }
+  </div>
+
+  <div class="sections-row">
+    <section class="dash-section recent-docs">
+      <div class="section-hd">
+        <h2>Recent Documents</h2>
+        <a routerLink="/dashboard/documents" class="section-link">View all →</a>
+      </div>
+
+      @if (recentDocs().length === 0) {
+        <div class="empty-state">
+          <span class="es-icon">📄</span>
+          <p>No documents yet</p>
+          <a routerLink="/generator" class="es-link">Create your first document →</a>
+        </div>
+      } @else {
+        <div class="doc-list">
+          @for (doc of recentDocs(); track doc.id) {
+            <div class="doc-row">
+              <div class="doc-meta">
+                <span class="doc-title">{{ doc.title }}</span>
+                <span class="doc-gen">{{ doc.generatorId | titlecase }}</span>
+              </div>
+              <span class="status-badge" [style.background]="statusColor(doc.status) + '18'"
+                [style.color]="statusColor(doc.status)">{{ doc.status }}</span>
+              <a [routerLink]="['/generator', doc.generatorId, doc.id, 'edit']"
+                class="doc-edit">Edit</a>
+            </div>
+          }
+        </div>
+      }
+    </section>
+
+    <section class="dash-section activity">
+      <div class="section-hd">
+        <h2>Your Plan</h2>
+      </div>
+      <div class="plan-card" [class.pro]="isPro()">
+        <div class="plan-name">{{ isPro() ? '⭐ Pro' : '🆓 Free' }}</div>
+        <p class="plan-desc">
+          @if (isPro()) {
+            Unlimited downloads, all premium templates.
+          } @else {
+            Free preview. Pay ₹10 per PDF download.
+          }
+        </p>
+        @if (!isPro()) {
+          <a routerLink="/dashboard/billing" class="upgrade-cta">Upgrade to Pro →</a>
+        }
+      </div>
+
+      <div class="section-hd" style="margin-top: 20px;">
+        <h2>Quick Stats</h2>
+      </div>
+      <div class="mini-stats">
+        <div class="mini-stat">
+          <span>Draft documents</span>
+          <strong>{{ draftCount() }}</strong>
+        </div>
+        <div class="mini-stat">
+          <span>Completed</span>
+          <strong>{{ completedCount() }}</strong>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="quick-links-section">
+    <h2>Create Document</h2>
+    <div class="ql-grid">
+      @for (q of quickLinks; track q.label) {
+        <a [routerLink]="q.route" class="ql-card">
+          <span class="ql-icon">{{ q.icon }}</span>
+          <span class="ql-label">{{ q.label }}</span>
+        </a>
+      }
+    </div>
+  </section>
+</div>

@@ -1,0 +1,155 @@
+<!-- ─── Hero ─────────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">✨ Free to preview · ₹10 to download</div>
+    <h1 class="hero-title">
+      Create Professional<br>
+      <span class="gradient-text">Documents Instantly</span>
+    </h1>
+    <p class="hero-desc">
+      Resume, CV, Marriage Biodata, Cover Letter, and 16 more document types.
+      Live preview, premium templates, instant PDF download.
+      <strong>No signup required.</strong>
+    </p>
+    <div class="hero-actions">
+      <a routerLink="/generator" class="btn btn-primary btn-lg">
+        Create Document Free →
+      </a>
+      <a routerLink="/templates" class="btn btn-ghost btn-lg">
+        Browse Templates
+      </a>
+    </div>
+    <div class="hero-stats">
+      @for (s of stats; track s.label) {
+        <div class="stat">
+          <span class="stat-value">{{ s.value }}</span>
+          <span class="stat-label">{{ s.label }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ─── Categories ───────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Document Generator Categories</h2>
+    <p class="section-sub">Choose the type of document you want to create</p>
+    <div class="categories-grid">
+      @for (cat of categories; track cat.label) {
+        <a [routerLink]="cat.route" class="category-card" [style.--accent]="cat.color">
+          <span class="cat-icon">{{ cat.icon }}</span>
+          <div>
+            <h3 class="cat-name">{{ cat.label }}</h3>
+            <p class="cat-desc">{{ cat.desc }}</p>
+          </div>
+          <span class="cat-arrow">→</span>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ─── All Generators ───────────────────────────────────────────────────────── -->
+<section class="section bg-surface">
+  <div class="container">
+    <h2 class="section-title">All 20 Document Generators</h2>
+    <p class="section-sub">One platform for all your professional documents</p>
+    <div class="generators-grid">
+      @for (g of allGenerators; track g.id) {
+        <a [routerLink]="getGeneratorRoute(g)" class="generator-card" [style.--card-accent]="g.color">
+          <div class="gen-icon">{{ g.icon }}</div>
+          <div class="gen-body">
+            <div class="gen-name">
+              {{ g.name }}
+              @if (g.isNew) { <span class="badge badge-new">New</span> }
+              @if (g.isPopular) { <span class="badge badge-popular">Popular</span> }
+              @if (g.isPremium) { <span class="badge badge-premium">Pro</span> }
+            </div>
+            <p class="gen-desc">{{ g.shortDescription }}</p>
+          </div>
+          <span class="gen-arrow">→</span>
+        </a>
+      }
+    </div>
+    <div class="section-cta">
+      <a routerLink="/generator" class="btn btn-primary">View All Generators →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── How It Works ─────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">How DocForge Works</h2>
+    <p class="section-sub">Create your first document in under 10 minutes</p>
+    <div class="steps-grid">
+      @for (step of howItWorks; track step.step) {
+        <div class="step-card">
+          <div class="step-number">{{ step.step }}</div>
+          <div class="step-icon">{{ step.icon }}</div>
+          <h3 class="step-title">{{ step.title }}</h3>
+          <p class="step-desc">{{ step.desc }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ─── Testimonials ─────────────────────────────────────────────────────────── -->
+<section class="section bg-surface">
+  <div class="container">
+    <h2 class="section-title">Loved by Thousands of Indians</h2>
+    <p class="section-sub">Join 50,000+ professionals who use DocForge</p>
+    <div class="testimonials-grid">
+      @for (t of testimonials; track t.name) {
+        <div class="testimonial-card">
+          <div class="stars">
+            @for (s of getStars(t.rating); track $index) { <span>⭐</span> }
+          </div>
+          <p class="testimonial-text">"{{ t.text }}"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">{{ t.name[0] }}</div>
+            <div>
+              <div class="author-name">{{ t.name }}</div>
+              <div class="author-role">{{ t.role }}</div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ─── Pricing CTA ──────────────────────────────────────────────────────────── -->
+<section class="section pricing-cta-section">
+  <div class="container">
+    <div class="pricing-cta-card">
+      <div class="pricing-cta-text">
+        <h2>Simple, Transparent Pricing</h2>
+        <p>Preview for free. Download for ₹10. Or go Pro for unlimited everything at ₹199/month.</p>
+      </div>
+      <div class="pricing-cta-actions">
+        <a routerLink="/generator" class="btn btn-white">Start Free →</a>
+        <a routerLink="/pricing" class="btn btn-outline-white">View Plans</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ──────────────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <p class="section-sub">Everything you need to know</p>
+    <div class="faqs">
+      @for (faq of faqs; track faq.q) {
+        <details class="faq-item">
+          <summary class="faq-question">{{ faq.q }}</summary>
+          <p class="faq-answer">{{ faq.a }}</p>
+        </details>
+      }
+    </div>
+    <p class="faq-more">More questions? <a routerLink="/faq">Read our full FAQ</a> or <a routerLink="/contact">contact us</a>.</p>
+  </div>
+</section>

@@ -1,0 +1,48 @@
+<div class="dashboard-shell" [class.sidebar-collapsed]="!sidebarOpen()">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a routerLink="/" class="logo">
+        <span class="logo-icon">⚡</span>
+        @if (sidebarOpen()) { <span class="logo-text">DocForge</span> }
+      </a>
+      <button class="toggle-btn" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+        {{ sidebarOpen() ? '◀' : '▶' }}
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      @for (item of navItems; track item.path) {
+        <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.path === '/dashboard' }" class="nav-item">
+          <span class="nav-icon">{{ item.icon }}</span>
+          @if (sidebarOpen()) { <span class="nav-label">{{ item.label }}</span> }
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/generator" class="new-doc-btn">
+        <span>➕</span>
+        @if (sidebarOpen()) { <span>New Document</span> }
+      </a>
+      <a routerLink="/" class="nav-item back-link">
+        <span class="nav-icon">🌐</span>
+        @if (sidebarOpen()) { <span class="nav-label">Back to Site</span> }
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main area -->
+  <div class="dashboard-main">
+    <header class="dashboard-topbar">
+      <button class="mobile-menu-btn" (click)="toggleSidebar()">☰</button>
+      <div class="topbar-spacer"></div>
+      <a routerLink="/generator" class="btn btn-primary">+ New Document</a>
+    </header>
+
+    <main class="dashboard-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

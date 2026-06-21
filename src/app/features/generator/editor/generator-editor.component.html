@@ -1,0 +1,281 @@
+@if (generator(); as gen) {
+  <div class="editor-shell">
+
+    <!-- ── Left: Form Panel ───────────────────────────────────────────────── -->
+    <aside class="form-panel">
+
+      <!-- Progress -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" [style.width.%]="completionPercent()"></div>
+      </div>
+      <div class="progress-label">{{ completionPercent() }}% complete</div>
+
+      <!-- Step nav -->
+      <nav class="step-nav">
+        @for (step of steps(); track step.id; let i = $index) {
+          <button class="step-tab" [class.active]="activeStepIndex() === i"
+            [class.optional]="step.optional" (click)="goToStep(i)">
+            <span class="step-icon">{{ step.icon }}</span>
+            <span class="step-label">{{ step.title }}</span>
+            @if (step.optional) { <span class="opt-tag">opt</span> }
+          </button>
+        }
+      </nav>
+
+      <!-- Form area -->
+      <div class="form-area">
+        @if (draftRestored()) {
+          <div class="draft-banner">✓ Draft restored from last session</div>
+        }
+
+        @if (activeStep(); as step) {
+          <div class="step-header">
+            <h2>{{ step.icon }} {{ step.title }}</h2>
+            @if (step.description) { <p class="step-desc">{{ step.description }}</p> }
+          </div>
+
+          <!-- ── Repeatable section (experience, education, etc.) ── -->
+          @if (step.repeatable) {
+            @for (item of getItems(step.id); track $index; let i = $index) {
+              <div class="repeat-block">
+                <div class="repeat-block-header">
+                  <span class="repeat-num">{{ step.title }} {{ i + 1 }}</span>
+                  @if (getItems(step.id).length > 1) {
+                    <button class="btn-remove-item" (click)="removeRepeatableItem(step.id, i)">✕ Remove</button>
+                  }
+                </div>
+                <div class="fields-grid">
+                  @for (field of step.fields; track field.id) {
+                    @if (shouldShowField(field, step.id, i)) {
+                      <div class="field-group" [class.full-width]="field.fullWidth || field.type === 'textarea' || field.type === 'photo'">
+                        @if (field.type !== 'divider' && field.type !== 'heading' && field.type !== 'checkbox' && field.type !== 'toggle') {
+                          <label class="field-label">
+                            {{ field.label }}
+                            @if (field.required) { <span class="required">*</span> }
+                          </label>
+                        }
+                        <ng-container *ngTemplateOutlet="fieldInput; context: { field: field, sectionId: step.id, idx: i, repeatable: true }"></ng-container>
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+            }
+            <button class="btn-add-item" (click)="addRepeatableItem(step.id)">
+              + {{ step.addButtonLabel ?? ('Add ' + step.title) }}
+            </button>
+
+          <!-- ── Non-repeatable section ── -->
+          } @else {
+            <div class="fields-grid">
+              @for (field of step.fields; track field.id) {
+                @if (shouldShowField(field, step.id)) {
+                  <div class="field-group" [class.full-width]="field.fullWidth || field.type === 'textarea' || field.type === 'photo'">
+                    @if (field.type !== 'divider' && field.type !== 'heading' && field.type !== 'checkbox' && field.type !== 'toggle') {
+                      <label class="field-label">
+                        {{ field.label }}
+                        @if (field.required) { <span class="required">*</span> }
+                      </label>
+                    }
+                    @if (field.hint) { <p class="field-hint">{{ field.hint }}</p> }
+                    <ng-container *ngTemplateOutlet="fieldInput; context: { field: field, sectionId: step.id, idx: 0, repeatable: false }"></ng-container>
+                  </div>
+                }
+              }
+            </div>
+          }
+
+          <!-- Step nav buttons -->
+          <div class="step-nav-btns">
+            @if (activeStepIndex() > 0) {
+              <button class="btn btn-ghost" (click)="prevStep()">← Previous</button>
+            } @else {
+              <div></div>
+            }
+            @if (activeStepIndex() < steps().length - 1) {
+              <button class="btn btn-primary" (click)="nextStep()">Next →</button>
+            } @else {
+              <button class="btn btn-success" (click)="complete()" [disabled]="downloading()">
+                {{ downloading() ? 'Preparing…' : '✓ Download PDF' }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Autosave indicator -->
+      @if (saveStatus() === 'saving') { <div class="save-status">Saving…</div> }
+      @if (saveStatus() === 'saved')  { <div class="save-status saved">✓ Saved</div> }
+
+    </aside>
+
+    <!-- ── Right: Preview Panel ───────────────────────────────────────────── -->
+    <div class="preview-panel">
+
+      <!-- Template strip -->
+      <div class="template-strip">
+        <span class="tpl-label">Template:</span>
+        @for (t of templates(); track t.id) {
+          <button class="tpl-chip" [class.active]="activeTemplate()?.id === t.id"
+            (click)="selectTemplate(t)">
+            {{ t.name }}
+            @if (t.isPremium) { <span class="chip-pro">PRO</span> }
+          </button>
+        }
+      </div>
+
+      <!-- Document preview -->
+      <div class="preview-scroll-area">
+        <div class="preview-scaler-wrap">
+          <div class="preview-scaler">
+            <div #previewEl class="doc-preview-root">
+              <!-- Watermark (free users, document not yet unlocked) -->
+              @if (!canDownloadFree()) {
+                <div class="watermark-overlay">
+                  <span class="watermark-text">DocForge Preview</span>
+                </div>
+              }
+              <app-document-renderer
+                [templateId]="activeTemplate()?.id ?? ''"
+                [sections]="previewSections()">
+              </app-document-renderer>
+            </div>
+          </div>
+        </div>
+        <p class="preview-note">A4 preview · Updates as you type</p>
+      </div>
+
+      <!-- Action bar -->
+      <div class="action-bar">
+        <div class="action-meta">
+          @if (docTitle()) {
+            <input class="doc-title-input" [value]="docTitle()"
+              (input)="docTitle.set($any($event.target).value)"
+              placeholder="Document title…" />
+          }
+        </div>
+        <div class="action-btns">
+          <button class="btn btn-ghost btn-sm" (click)="shareLink()" title="Copy link to clipboard">🔗 Share</button>
+          <button class="btn btn-ghost btn-sm" (click)="exporter.printDocument()">🖨 Print</button>
+          <button class="btn btn-primary btn-sm" (click)="downloadPdf()" [disabled]="downloading()">
+            @if (downloading()) { Generating… }
+            @else if (canDownloadFree()) { 📄 Download PDF }
+            @else { 📄 Download PDF (₹10) }
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+} @else {
+  <div class="not-found-state">
+    <h2>Generator not found</h2>
+    <a routerLink="/generator">← Back to all generators</a>
+  </div>
+}
+
+<!-- ── Reusable field input template ─────────────────────────────────────── -->
+<ng-template #fieldInput let-field="field" let-sectionId="sectionId" let-idx="idx" let-repeatable="repeatable">
+  @switch (field.type) {
+
+    @case ('textarea') {
+      <textarea class="field-input field-textarea"
+        [placeholder]="field.placeholder ?? ''"
+        [rows]="field.rows ?? 4"
+        [value]="getFieldValue(sectionId, field.id, idx)"
+        (input)="repeatable ? updateRepeatableField(sectionId, idx, field.id, $any($event.target).value) : updateField(sectionId, field.id, $any($event.target).value)">
+      </textarea>
+    }
+
+    @case ('select') {
+      <select class="field-input field-select"
+        [value]="getFieldValue(sectionId, field.id, idx)"
+        (change)="repeatable ? updateRepeatableField(sectionId, idx, field.id, $any($event.target).value) : updateField(sectionId, field.id, $any($event.target).value)">
+        <option value="">Select…</option>
+        @for (opt of field.options ?? []; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+    }
+
+    @case ('radio') {
+      <div class="radio-group">
+        @for (opt of field.options ?? []; track opt.value) {
+          <label class="radio-label">
+            <input type="radio" [name]="sectionId + '_' + field.id + '_' + idx"
+              [value]="opt.value"
+              [checked]="getFieldValue(sectionId, field.id, idx) === opt.value"
+              (change)="repeatable ? updateRepeatableField(sectionId, idx, field.id, opt.value) : updateField(sectionId, field.id, opt.value)" />
+            {{ opt.label }}
+          </label>
+        }
+      </div>
+    }
+
+    @case ('checkbox') {
+      <label class="checkbox-label">
+        <input type="checkbox"
+          [checked]="!!getFieldValue(sectionId, field.id, idx)"
+          (change)="repeatable ? updateRepeatableField(sectionId, idx, field.id, $any($event.target).checked) : updateField(sectionId, field.id, $any($event.target).checked)" />
+        {{ field.label }}
+      </label>
+    }
+
+    @case ('toggle') {
+      <label class="toggle-label">
+        <input type="checkbox" class="toggle-input"
+          [checked]="!!getFieldValue(sectionId, field.id, idx)"
+          (change)="repeatable ? updateRepeatableField(sectionId, idx, field.id, $any($event.target).checked) : updateField(sectionId, field.id, $any($event.target).checked)" />
+        <span class="toggle-track"></span>
+        {{ field.label }}
+      </label>
+    }
+
+    @case ('tags') {
+      <div class="tags-wrap">
+        <div class="tags-list">
+          @for (tag of asArray(getFieldValue(sectionId, field.id, idx)); track tag) {
+            <span class="tag">{{ tag }} <button (click)="removeTag(sectionId, field.id, idx, tag, repeatable)">✕</button></span>
+          }
+        </div>
+        <input class="field-input tags-input" type="text"
+          [placeholder]="field.placeholder ?? 'Type and press Enter (or comma-separate)'"
+          (keydown.enter)="addTag($event, sectionId, field.id, idx, repeatable)"
+          (blur)="onTagBlur($event, sectionId, field.id, idx, repeatable)" />
+      </div>
+    }
+
+    @case ('photo') {
+      <div class="photo-upload">
+        @if (getFieldValue(sectionId, field.id, idx)) {
+          <img class="photo-preview" [src]="getFieldValue(sectionId, field.id, idx)" alt="Preview" />
+          <button class="btn-remove-photo" (click)="repeatable ? updateRepeatableField(sectionId, idx, field.id, '') : updateField(sectionId, field.id, '')">✕ Remove</button>
+        } @else {
+          <label class="photo-label">
+            <input type="file" accept="image/*" style="display:none"
+              (change)="onPhotoSelected($event, sectionId, field.id, idx, repeatable)" />
+            📷 Upload Photo
+          </label>
+        }
+      </div>
+    }
+
+    @case ('divider') {
+      <hr class="field-divider" />
+    }
+
+    @case ('heading') {
+      <h3 class="field-heading">{{ field.label }}</h3>
+    }
+
+    @default {
+      <input class="field-input"
+        [type]="inputType(field.type)"
+        [placeholder]="field.placeholder ?? ''"
+        [maxLength]="field.maxLength ?? 500"
+        [value]="getFieldValue(sectionId, field.id, idx)"
+        (input)="repeatable ? updateRepeatableField(sectionId, idx, field.id, $any($event.target).value) : updateField(sectionId, field.id, $any($event.target).value)" />
+    }
+
+  }
+</ng-template>

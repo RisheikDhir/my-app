@@ -1,0 +1,175 @@
+.page { max-width: 760px; }
+h1 { font-size: 22px; font-weight: 800; margin-bottom: 24px; }
+
+.current-plan-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+
+  &.pro { border-color: #c7d2fe; background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%); }
+}
+
+.plan-left { flex: 1; }
+
+.plan-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  background: #f3f4f6;
+  color: #374151;
+  margin-bottom: 8px;
+
+  &.pro { background: #e0e7ff; color: #4338ca; }
+}
+
+.plan-desc  { font-size: 14px; color: #6b7280; margin-bottom: 6px; }
+.total-spent { font-size: 13px; color: #9ca3af; strong { color: #374151; } }
+
+.btn-upgrade {
+  background: #6366f1; color: #fff;
+  padding: 11px 22px; border-radius: 10px;
+  text-decoration: none; font-size: 14px; font-weight: 600;
+  white-space: nowrap;
+}
+
+.section-title { font-size: 17px; font-weight: 700; margin-bottom: 16px; }
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 28px;
+
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
+}
+
+.plan-card {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &.highlighted { border-color: #6366f1; box-shadow: 0 0 0 3px #eef2ff; }
+}
+
+.plan-badge-chip {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #6366f1;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.plan-name  { font-size: 17px; font-weight: 800; }
+.plan-price {
+  font-size: 28px; font-weight: 900; color: #111;
+  .plan-interval { font-size: 14px; font-weight: 400; color: #6b7280; }
+}
+
+.plan-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  flex: 1;
+
+  li { font-size: 13.5px; color: #374151; }
+}
+
+.btn-plan {
+  padding: 12px;
+  border: 1.5px solid #6366f1;
+  border-radius: 10px;
+  background: transparent;
+  color: #6366f1;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-top: 4px;
+
+  &.primary { background: #6366f1; color: #fff; }
+  &:hover:not(:disabled) { opacity: 0.88; }
+  &:disabled { opacity: 0.55; cursor: not-allowed; }
+}
+
+.upgrade-cta-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+  border: 1.5px solid #c7d2fe;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+
+  h2 { font-size: 18px; font-weight: 900; color: #111; margin-bottom: 6px; }
+  p  { font-size: 13.5px; color: #6b7280; margin-bottom: 12px; }
+}
+
+.cta-left { flex: 1; }
+
+.cta-perks {
+  list-style: none;
+  font-size: 13px;
+  color: #374151;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.btn-cta-upgrade {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  align-self: center;
+  box-shadow: 0 4px 16px rgba(99,102,241,0.3);
+  transition: all 0.15s;
+
+  &:hover { opacity: 0.88; transform: translateY(-1px); }
+}
+
+.pro-active-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #ecfdf5;
+  border: 1.5px solid #a7f3d0;
+  border-radius: 16px;
+  padding: 22px 28px;
+  margin-bottom: 28px;
+}
+
+.pro-icon { font-size: 28px; flex-shrink: 0; }
+.pro-active-title { font-size: 15px; font-weight: 700; color: #065f46; }
+.pro-active-sub   { font-size: 13px; color: #059669; margin-top: 2px; }
+
+.links-row { margin-top: 8px; }
+.text-link { font-size: 13.5px; color: #6366f1; font-weight: 600; text-decoration: none; }

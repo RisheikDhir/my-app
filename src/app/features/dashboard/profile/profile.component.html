@@ -1,0 +1,72 @@
+<div class="page">
+  <h1>Profile Settings</h1>
+
+  <div class="profile-card">
+    <div class="avatar-row">
+      <div class="avatar">{{ initials() }}</div>
+      <div>
+        <p class="avatar-name">{{ name() || 'Guest User' }}</p>
+        <p class="avatar-email">{{ email() || 'No email set' }}</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="p-name">Display Name</label>
+        <input id="p-name" type="text" placeholder="Raj Sharma"
+          [value]="name()" (input)="set('name', $any($event.target).value)" />
+      </div>
+
+      <div class="form-group">
+        <label for="p-email">Email Address</label>
+        <input id="p-email" type="email" placeholder="you@email.com"
+          [value]="email()" (input)="set('email', $any($event.target).value)" />
+      </div>
+
+      <div class="form-group">
+        <label for="p-phone">Phone Number</label>
+        <input id="p-phone" type="tel" placeholder="+91 98765 43210"
+          [value]="phone()" (input)="set('phone', $any($event.target).value)" />
+      </div>
+
+      <div class="form-group">
+        <label for="p-lang">Preferred Language</label>
+        <select id="p-lang" [value]="lang()"
+          (change)="lang.set($any($event.target).value)">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="pref-section">
+      <p class="pref-label">Appearance</p>
+      <div class="theme-toggle-row">
+        @for (opt of themeOptions; track opt.value) {
+          <button class="theme-btn" [class.active]="theme() === opt.value"
+            (click)="setTheme(opt.value)">
+            {{ opt.icon }} {{ opt.label }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-save" (click)="save()" [disabled]="saving()">
+        @if (saving()) { Saving… }
+        @else { Save Changes }
+      </button>
+    </div>
+  </div>
+
+  <div class="data-notice">
+    🔒 All your data is stored locally in your browser. Nothing is sent to any server.
+  </div>
+</div>

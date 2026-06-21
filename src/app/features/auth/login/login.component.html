@@ -1,0 +1,48 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <a routerLink="/" class="auth-logo">⚡ DocForge</a>
+
+    <h1>Welcome back</h1>
+    <p class="auth-sub">Sign in to access your saved documents</p>
+
+    @if (error()) {
+      <div class="auth-error">{{ error() }}</div>
+    }
+
+    <div class="form-group">
+      <label for="login-email">Email</label>
+      <input
+        id="login-email"
+        type="email"
+        placeholder="you@email.com"
+        [value]="email()"
+        (input)="setEmail($any($event.target).value)"
+        autocomplete="email"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="login-password">Password</label>
+      <input
+        id="login-password"
+        type="password"
+        placeholder="••••••••"
+        [value]="password()"
+        (input)="setPassword($any($event.target).value)"
+        autocomplete="current-password"
+      />
+    </div>
+
+    <button class="btn-auth" (click)="submit()" [disabled]="loading()">
+      @if (loading()) { Signing in… } @else { Sign In → }
+    </button>
+
+    <p class="auth-alt">
+      Don't have an account? <a routerLink="/auth/register">Sign up free</a>
+    </p>
+
+    <div class="auth-divider">or</div>
+
+    <a routerLink="/generator" class="btn-guest">Continue as Guest (no signup)</a>
+  </div>
+</div>

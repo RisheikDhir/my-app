@@ -1,21 +1,117 @@
+// ─── Design System Tokens ─────────────────────────────────────────────────────
+:root {
+  // Brand
+  --color-primary:      #6366F1;
+  --color-primary-dark: #4F46E5;
+  --color-accent:       #818CF8;
+
+  // Neutrals
+  --color-text:         #111827;
+  --color-text-muted:   #6B7280;
+  --color-text-faint:   #9CA3AF;
+  --color-surface:      #F8FAFC;
+  --color-border:       #E5E7EB;
+  --color-border-dark:  #D1D5DB;
+
+  // Status
+  --color-success: #059669;
+  --color-warning: #D97706;
+  --color-error:   #DC2626;
+  --color-info:    #0284C7;
+
+  // Spacing scale
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  // Radius
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
+  --radius-full: 9999px;
+
+  // Shadows
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.10);
+  --shadow-xl:  0 16px 48px rgba(0,0,0,0.12);
+
+  // Typography
+  --font-sans:  'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-mono:  'Fira Code', 'Cascadia Code', monospace;
+
+  // Editor
+  --editor-surface:      #FFFFFF;
+  --editor-preview-bg:   #F8FAFC;
+  --editor-border:       #E5E7EB;
+  --editor-text:         #111827;
+  --editor-text-muted:   #6B7280;
+  --editor-primary:      #6366F1;
+  --editor-sidebar-bg:   #FAFAFA;
+}
+
+// ─── Dark Mode Tokens ─────────────────────────────────────────────────────────
+[data-theme="dark"] {
+  --color-text:         #F9FAFB;
+  --color-text-muted:   #9CA3AF;
+  --color-text-faint:   #6B7280;
+  --color-surface:      #111827;
+  --color-border:       #374151;
+  --color-border-dark:  #4B5563;
+
+  // Editor tokens in dark mode
+  --editor-surface:      #1F2937;
+  --editor-preview-bg:   #111827;
+  --editor-border:       #374151;
+  --editor-text:         #F9FAFB;
+  --editor-text-muted:   #9CA3AF;
+  --editor-sidebar-bg:   #1F2937;
+
+  background-color: #111827;
+  color-scheme: dark;
+}
+
 // ─── Global reset & base ──────────────────────────────────────────────────────
 *, *::before, *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html, body {
-  margin: 0;
-  padding: 0;
   height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  color: #1E293B;
+  font-family: var(--font-sans);
+  color: var(--color-text);
   background: #fff;
   line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-text);
+}
+
+a { color: inherit; }
+
+img { max-width: 100%; display: block; }
+
+input, textarea, select, button {
+  font-family: inherit;
 }
 
 // ─── Scrollbar styling ────────────────────────────────────────────────────────
